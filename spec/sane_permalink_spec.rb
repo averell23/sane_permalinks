@@ -98,7 +98,7 @@ describe SanePermalinks do
   describe "sanitizing params" do
 
     it "should do the standard escaping" do
-      fake_model.sanitize_param("Ín der Öder pf'ügén … víé-le Hüöänér!\"!_:;§$%").should match(/in-der-oder-pf-?ugen-vie-le-huoaner-ss-percent/)
+      fake_model.sanitize_param("Ín der Öder pf'ügén … víé-le Hüöänér!\"!_:;§$%»").should match(/in-der-oder-pf-?ugen-vie-le-huoaner-ss-percent/)
     end
 
     it "should sanely handle nil values" do
