@@ -101,6 +101,10 @@ describe SanePermalinks do
       fake_model.sanitize_param("Ín der Öder pf'ügén … víé-le Hüöänér!\"!_:;§$%").should match(/in-der-oder-pf-?ugen-vie-le-huoaner-ss-percent/)
     end
 
+    it "should sanely handle nil values" do
+      fake_model.sanitize_param(nil).should be_nil
+    end
+
     it "should call the sanitizer during #to_param" do
       fake_class.send(:make_permalink, :with => :foobar)
       fake_model.should_receive(:foobar).and_return('hello_world')
