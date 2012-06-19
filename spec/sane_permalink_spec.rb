@@ -62,9 +62,9 @@ describe SanePermalinks do
     it "should generate a nice param" do
       fake_class.send(:make_permalink, :with => :foobar, :prepend_id => true)
 
-      fake_model.should_receive(:foobar).and_return('hello_world')
+      fake_model.should_receive(:foobar).and_return('helloworld')
 
-      fake_model.to_param.should == '23-hello_world'
+      fake_model.to_param.should == '23-helloworld'
     end
 
     it "should raise an error when finding by a wrong permalink, if required" do
@@ -98,6 +98,14 @@ describe SanePermalinks do
 
     it "should do the standard escaping" do
       fake_model.sanitize_param("Ín der Öder pf'ügén víé-le Hüöänér!\"!_:;§$%").should == "in-der-oder-pf-ugen-vie-le-huoaner-ss-percent"
+    end
+
+    it "should call the sanitizer during #to_param" do
+      fake_class.send(:make_permalink, :with => :foobar)
+      fake_model.should_receive(:foobar).and_return('hello_world')
+      fake_model.should_receive(:sanitize_param).with('hello_world').and_return('foo')
+
+      fake_model.to_param.should == 'foo'
     end
 
   end
