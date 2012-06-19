@@ -1,26 +1,21 @@
 require './lib/sane_permalinks'
 
-class FakeSuper
-
-  def to_param
-    '23'
-  end
-
-end
 
 module ActiveRecord
-  class RecordNotFound < Exception
+  class Base
+
+    def to_param ; '23' ; end
+
   end
+
+  class RecordNotFound < Exception ; end
 end
 
 describe SanePermalinks do
 
-  let(:fake_class) do
-    fake_class = Class.new(FakeSuper)
-    fake_class.send(:include, SanePermalinks)
-    fake_class.send(:extend, SanePermalinks::ClassMethods)
-    fake_class
-  end
+  before(:all) { SanePermalinks.init }
+
+  let(:fake_class) { Class.new(ActiveRecord::Base) }
 
   let(:fake_model) { fake_class.new }
 
