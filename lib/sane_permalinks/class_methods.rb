@@ -13,6 +13,7 @@ module SanePermalinks
     def find_by_param(*args)
       if(permalink_options.empty? || permalink_options[:prepend_id])
         result = find_by_id(args.first.to_i)
+        return nil unless result
         raise(WrongPermalink, "Permalink doesn't match: #{args.first} vs. #{result.to_param}") if(permalink_options[:raise_on_wrong_permalink] && result.to_param != args.first)
         result
       else

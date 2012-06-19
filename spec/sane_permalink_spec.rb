@@ -85,7 +85,16 @@ describe SanePermalinks do
       fake_class.should_receive(:find_by_id).and_return(fake_result)
       fake_result.should_receive(:to_param).and_return('23-hello')
 
-      expect { fake_class.find_by_param('23-hello') }.to_not raise_error(SanePermalinks::WrongPermalink)
+      fake_class.find_by_param('23-hello') == fake_result
+    end
+
+    it "should still work normally if nothing is found" do
+      fake_class.send(:make_permalink, :with => :foobar, :prepend_id => true, :raise_on_wrong_permalink => true)
+      fake_result = fake_class.new
+
+      fake_class.should_receive(:find_by_id).and_return(nil)
+
+      fake_class.find_by_param('23-hello') == nil
     end
 
   end
