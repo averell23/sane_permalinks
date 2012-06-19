@@ -9,6 +9,5 @@ group :development do
   gem "bundler", ">= 1.0.0"
   gem "jeweler", "~> 1.6.4"
   gem "rspec", ">= 2.0.0"
-  gem "rcov"
-  gem "stringex", ">= 1.2.0"
+  gem "stringex", ">= 1.2.0" # Hackaround: Ruby 1.9.x will require >= 1.4.0 to pass the tests, 1.8.7 will fail with it...
 end

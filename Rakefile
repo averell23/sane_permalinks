@@ -32,13 +32,6 @@ RSpec::Core::RakeTask.new do |t|
   t.pattern = "./spec/**/*_spec.rb"
 end
 
-desc "Code coverage"
-RSpec::Core::RakeTask.new(:cov) do |t|
-  t.pattern = "./spec/**/*_spec.rb"
-  t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec']
-end
-
 task :default => :spec
 
 require 'rake/rdoctask'

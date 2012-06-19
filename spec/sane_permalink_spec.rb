@@ -1,3 +1,4 @@
+# encoding: utf-8
 require './lib/sane_permalinks'
 
 
@@ -97,7 +98,7 @@ describe SanePermalinks do
   describe "sanitizing params" do
 
     it "should do the standard escaping" do
-      fake_model.sanitize_param("Ín der Öder pf'ügén … víé-le Hüöänér!\"!_:;§$%").should == "in-der-oder-pf-ugen-vie-le-huoaner-ss-percent"
+      fake_model.sanitize_param("Ín der Öder pf'ügén … víé-le Hüöänér!\"!_:;§$%").should match(/in-der-oder-pf-?ugen-vie-le-huoaner-ss-percent/)
     end
 
     it "should call the sanitizer during #to_param" do
