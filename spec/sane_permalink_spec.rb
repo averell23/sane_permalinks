@@ -28,8 +28,8 @@ describe SanePermalinks do
   describe "the default behaviour" do
 
     it "should implement #find_by_param to call #find_by_id"  do
-      fake_model.should_receive(:find_by_id).with(123).and_return('hello')
-      fake_model.find_by_param(123).should == 'hello'
+      fake_class.should_receive(:find_by_id).with(123).and_return('hello')
+      fake_class.find_by_param(123).should == 'hello'
     end
 
     it "should just call the superclass to get the param" do
@@ -42,8 +42,8 @@ describe SanePermalinks do
 
     it "should implement #find_by_param to call #find_by_{field_name}" do
       fake_class.send(:make_permalink, :with => :foobar)
-      fake_model.should_receive(:find_by_foobar).with('helloworld').and_return('hello')
-      fake_model.find_by_param('helloworld').should == 'hello'
+      fake_class.should_receive(:find_by_foobar).with('helloworld').and_return('hello')
+      fake_class.find_by_param('helloworld').should == 'hello'
     end
 
     it "should implement the #to_param method to return the field content" do
@@ -60,8 +60,8 @@ describe SanePermalinks do
     it "should search by id" do
       fake_class.send(:make_permalink, :with => :foobar, :prepend_id => true)
 
-      fake_model.should_receive(:find_by_id).with(23).and_return('hello')
-      fake_model.find_by_param('23-barfoo').should == 'hello'
+      fake_class.should_receive(:find_by_id).with(23).and_return('hello')
+      fake_class.find_by_param('23-barfoo').should == 'hello'
     end
 
     it "should generate a nice param" do
@@ -76,10 +76,10 @@ describe SanePermalinks do
       fake_class.send(:make_permalink, :with => :foobar, :prepend_id => true, :raise_on_wrong_permalink => true)
       fake_result = fake_class.new
 
-      fake_model.should_receive(:find_by_id).and_return(fake_result)
+      fake_class.should_receive(:find_by_id).and_return(fake_result)
       fake_result.should_receive(:to_param).and_return('23-abc')
 
-      expect { fake_model.find_by_param('23-hello') }.to raise_error(SanePermalinks::WrongPermalink)
+      expect { fake_class.find_by_param('23-hello') }.to raise_error(SanePermalinks::WrongPermalink)
     end
 
   end
@@ -87,14 +87,14 @@ describe SanePermalinks do
   describe "find_by_param as an exclamation mark method" do
 
     it "should raise an exception if nothing is found" do
-      fake_model.should_receive(:find_by_param).and_return(nil)
+      fake_class.should_receive(:find_by_param).and_return(nil)
 
-      expect { fake_model.find_by_param!(123) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { fake_class.find_by_param!(123) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "should work normally if a record is found" do
-      fake_model.should_receive(:find_by_param).and_return('something')
-      fake_model.find_by_param!(123).should == 'something'
+      fake_class.should_receive(:find_by_param).and_return('something')
+      fake_class.find_by_param!(123).should == 'something'
     end
 
   end

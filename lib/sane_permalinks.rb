@@ -5,20 +5,14 @@ module SanePermalinks
   module ClassMethods
 
     def permalink_options
-      @permalink_options
+      @permalink_options || {}
     end
 
     def make_permalink(options)
       @permalink_options = options
     end
 
-  end
-
-  def permalink_options
-    self.class.permalink_options || {}
-  end
-
-  def find_by_param(*args)
+    def find_by_param(*args)
     if(permalink_options.empty? || permalink_options[:prepend_id])
       args[0] = args.first.to_i
       result = find_by_id(*args)
@@ -31,6 +25,12 @@ module SanePermalinks
 
   def find_by_param!(*args)
     self.find_by_param(*args) or raise ActiveRecord::RecordNotFound, "Couldn't find #{permalink_options[:with]} with permalink=#{args.first}"
+  end
+
+  end
+
+  def permalink_options
+    self.class.permalink_options
   end
 
   def to_param
