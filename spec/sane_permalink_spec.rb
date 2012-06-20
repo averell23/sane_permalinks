@@ -75,7 +75,7 @@ describe SanePermalinks do
       fake_class.should_receive(:find_by_id).and_return(fake_result)
       fake_result.stub!(:to_param).and_return('23-abc')
 
-      expect { fake_class.find_by_param('23-hello') }.to raise_error(SanePermalinks::WrongPermalink)
+      expect { fake_class.find_by_param('23-hello') }.to raise_error(SanePermalinks::WrongPermalink) { |error| error.obj.should == fake_result }
     end
 
     it "should always work normally if the permalink is correct" do

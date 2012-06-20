@@ -1,7 +1,5 @@
 module SanePermalinks
 
-  class WrongPermalink < Exception ; end
-
   def permalink_options
     self.class.permalink_options
   end
