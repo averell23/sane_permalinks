@@ -25,11 +25,11 @@ describe SanePermalinks do
 
     it "should implement #find_by_param to call #find_by_id"  do
       fake_class.should_receive(:find_by_id).with(123).and_return('hello')
-      fake_class.find_by_param(123).should == 'hello'
+      fake_class.find_by_param(123).should eq 'hello'
     end
 
     it "should just call the superclass to get the param" do
-      fake_model.to_param.should == '23'
+      fake_model.to_param.should eq '23'
     end
 
   end
@@ -39,14 +39,14 @@ describe SanePermalinks do
     it "should implement #find_by_param to call #find_by_{field_name}" do
       fake_class.send(:make_permalink, :with => :foobar)
       fake_class.should_receive(:find_by_foobar).with('helloworld').and_return('hello')
-      fake_class.find_by_param('helloworld').should == 'hello'
+      fake_class.find_by_param('helloworld').should eq 'hello'
     end
 
     it "should implement the #to_param method to return the field content" do
       fake_class.send(:make_permalink, :with => 'barfoo')
 
       fake_model.should_receive(:barfoo).with(no_args).and_return('hello')
-      fake_model.to_param.should == 'hello'
+      fake_model.to_param.should eq 'hello'
     end
 
   end
@@ -57,7 +57,7 @@ describe SanePermalinks do
       fake_class.send(:make_permalink, :with => :foobar, :prepend_id => true)
 
       fake_class.should_receive(:find_by_id).with(23).and_return('hello')
-      fake_class.find_by_param('23-barfoo').should == 'hello'
+      fake_class.find_by_param('23-barfoo').should eq 'hello'
     end
 
     it "should generate a nice param" do
@@ -65,7 +65,7 @@ describe SanePermalinks do
 
       fake_model.should_receive(:foobar).and_return('helloworld')
 
-      fake_model.to_param.should == '23-helloworld'
+      fake_model.to_param.should eq '23-helloworld'
     end
 
     it "should raise an error when finding by a wrong permalink, if required" do
@@ -75,7 +75,7 @@ describe SanePermalinks do
       fake_class.should_receive(:find_by_id).and_return(fake_result)
       fake_result.stub!(:to_param).and_return('23-abc')
 
-      expect { fake_class.find_by_param('23-hello') }.to raise_error(SanePermalinks::WrongPermalink) { |error| error.obj.should == fake_result }
+      expect { fake_class.find_by_param('23-hello') }.to raise_error(SanePermalinks::WrongPermalink) { |error| error.obj.should eq fake_result }
     end
 
     it "should always work normally if the permalink is correct" do
@@ -85,7 +85,7 @@ describe SanePermalinks do
       fake_class.should_receive(:find_by_id).and_return(fake_result)
       fake_result.should_receive(:to_param).and_return('23-hello')
 
-      fake_class.find_by_param('23-hello') == fake_result
+      fake_class.find_by_param('23-hello').should eq fake_result
     end
 
     it "should always work normally if the permalink is just an integer" do # Yes, that is highly weird, but it was our requirement...
@@ -95,7 +95,7 @@ describe SanePermalinks do
       fake_class.should_receive(:find_by_id).and_return(fake_result)
       fake_result.should_receive(:to_param).and_return('23-hello')
 
-      fake_class.find_by_param('23') == fake_result
+      fake_class.find_by_param('23').should eq fake_result
     end
 
     it "should still work normally if nothing is found" do
@@ -104,7 +104,7 @@ describe SanePermalinks do
 
       fake_class.should_receive(:find_by_id).and_return(nil)
 
-      fake_class.find_by_param('23-hello') == nil
+      fake_class.find_by_param('23-hello').should be_nil
     end
 
   end
@@ -119,7 +119,7 @@ describe SanePermalinks do
 
     it "should work normally if a record is found" do
       fake_class.should_receive(:find_by_param).and_return('something')
-      fake_class.find_by_param!(123).should == 'something'
+      fake_class.find_by_param!(123).should eq 'something'
     end
 
   end
@@ -139,7 +139,7 @@ describe SanePermalinks do
       fake_model.should_receive(:foobar).and_return('hello_world')
       fake_model.should_receive(:sanitize_param).with('hello_world').and_return('foo')
 
-      fake_model.to_param.should == 'foo'
+      fake_model.to_param.should eq 'foo'
     end
 
   end
