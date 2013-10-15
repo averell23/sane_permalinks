@@ -1,6 +1,7 @@
 = sane_permalinks
 
 {<img src="https://codeclimate.com/github/averell23/sane_permalinks.png" />}[https://codeclimate.com/github/averell23/sane_permalinks]
+{<img src="https://travis-ci.org/averell23/sane_permalinks.png?branch=master" alt="Build Status" />}[https://travis-ci.org/averell23/sane_permalinks]
 
 This is mostly itchy-scratchy-ware. We didn't really want the self-proclaimed "swiss army bulldozer" of slug handling all over the place. We use the find_by_params plugin before, but it was getting hairy around the edges, and people tended to patch on top of it.
 
